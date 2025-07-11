@@ -2,6 +2,6 @@ import sys
 
 score = int(sys.stdin.readline().strip())
 
-grade_table = {10: 'A', 9: 'A', 8: 'B', 7: 'C', 6: 'D'}
+grade_table = ['F', 'F', 'F', 'F', 'F', 'F', 'D', 'C', 'B', 'A', 'A']
 
-print(grade_table.get(score // 10, 'F'))
+print(grade_table[score // 10])
