@@ -1,14 +1,7 @@
 import sys
 
-n = int(sys.stdin.readline().strip())
+score = int(sys.stdin.readline().strip())
 
-if n >= 90:
-    print('A')
-elif n >= 80:
-    print('B')
-elif n >= 70:
-    print('C')
-elif n >= 60:
-    print('D')
-else:
-    print('F')
+grade_table = {10: 'A', 9: 'A', 8: 'B', 7: 'C', 6: 'D'}
+
+print(grade_table.get(score // 10, 'F'))
