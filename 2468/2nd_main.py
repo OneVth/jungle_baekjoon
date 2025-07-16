@@ -1,15 +1,21 @@
 import sys
 
-sys.setrecursionlimit(10**8)
+from collections import deque
 
-def dfs(x: int, y: int, h: int) -> None:
+def bfs(x: int, y: int, h: int) -> None:
+        q = deque()
+        q.append((x, y))
         visited[x][y] = True
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            nx = x + dx
-            ny = y + dy
-            if 0 <= nx < n and 0 <= ny < n:
-                if not visited[nx][ny] and height_table[nx][ny] > h:
-                    dfs(nx, ny, h)
+
+        while q:
+            cx, cy = q.popleft()
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nx = cx + dx
+                ny = cy + dy
+                if 0 <= nx < n and 0 <= ny < n:
+                    if not visited[nx][ny] and height_table[nx][ny] > h:
+                        q.append((nx, ny))
+                        visited[nx][ny] = True
 
 
 n = int(sys.stdin.readline())
@@ -29,7 +35,7 @@ for h in range(max_height + 1):
         for j in range(n):
             if not visited[i][j] and height_table[i][j] > h:
                 safe_area += 1
-                dfs(i, j, h)
+                bfs(i, j, h)
 
     max_safe = max(max_safe, safe_area)
 
