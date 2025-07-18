@@ -1,28 +1,28 @@
 import sys
+import bisect
 
 n = int(sys.stdin.readline())
 
 values = sorted(list(map(int, sys.stdin.readline().split())))
 
-start = 0
-end = n - 1
 
-min = int(10e9)
+min_sum = int(10e9)
 ans = [0] * 2   # 출력할 용액의 특성값
-while start < end:
-    temp = values[start] + values[end]
-    if abs(min) > abs(temp):
-        min = temp
-        ans[0] = values[start]
-        ans[1] = values[end]
-    
-    if temp == 0:
-        break
+for i in range(n - 1):
+    a = values[i]
+    target = -a
 
-    if temp > 0:
-        end -= 1
-    else:
-        start += 1
+    idx = bisect.bisect_left(values, target, i + 1, n)
+
+    for j in [idx - 1, idx]:
+        if j <= i or j >= n:
+            continue
+        
+        b = values[j]
+        total = abs(a + b)
+        if total < min_sum:
+            min_sum = total
+            ans = [a, b]
 
 
 print(ans[0], ans[1])
