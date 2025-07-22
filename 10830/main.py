@@ -1,5 +1,7 @@
 import sys
 
+sys.setrecursionlimit(10**8)
+
 n, b = map(int, sys.stdin.readline().split())
 
 
@@ -15,7 +17,7 @@ def multiply(left, right):
 
 def pow_matrix(mat, exp):
     if exp == 1:
-        return mat
+        return [[element % 1000 for element in row] for row in mat]
 
     half = pow_matrix(mat, exp // 2)
     if exp % 2 == 0:
