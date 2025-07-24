@@ -210,3 +210,6 @@ __marimo__/
 *.png
 function_visualizer.py
 recur_viz.py
+
+# Claude Code files
+.claude
