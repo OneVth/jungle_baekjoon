@@ -1,46 +1,33 @@
 import sys
-
-sys.setrecursionlimit(10*8)
-
-def find(parent, x):
-    if parent[x] != x:
-        parent[x] = find(parent, parent[x])
-    return parent[x]
-
-def union(parent, rank, a, b):
-    root_a = find(parent, a)
-    root_b = find(parent, b)
-
-    if root_a != root_b:
-        if rank[root_a] < rank[root_b]:
-            parent[root_a] = root_b
-        elif rank[root_a] > rank[root_b]:
-            parent[root_b] = root_a
-        else:
-            parent[root_b] = root_a
-            rank[root_a] += 1
+import heapq
 
 input = sys.stdin.readline
 
 v, e = map(int, input().split())
 
-parent = [i for i in range(v + 1)]
-rank = [0] * (v + 1)
-result = 0
-edge_count = 0
-
-edges = []
+# 인접 리스트로 그래프 구성
+graph = [[] for _ in range(v + 1)]
 for _ in range(e):
-    edges.append(tuple(map(int, input().split())))
+    a, b, cost = map(int, input().split())
+    graph[a].append((cost, b))
+    graph[b].append((cost, a))
 
-edges.sort(key=lambda x: x[2])
+visited = [False] * (v + 1)
+heap = [(0, 1)] # (비용, 노드) - 1번 노드부터 시작
+result = 0
 
-for a, b, cost in edges:
-    if find(parent, a) != find(parent, b):
-        union(parent, rank, a, b)
-        result += cost
-        edge_count += 1
-        if edge_count == v - 1:
-            break
+while heap:
+    cost, node = heapq.heappop(heap)
+
+    if visited[node]:
+        continue
+
+    visited[node] = True    # 이미 방문한 노드면 스킵
+    result += cost
+
+    # 새로 추가된 노드와 연결된 간선들을 힙에 추가
+    for next_cost, next_node in graph[node]:
+        if not visited[next_node]:
+            heapq.heappush(heap, (next_cost, next_node))
 
 print(result)
