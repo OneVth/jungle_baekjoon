@@ -1,5 +1,6 @@
 import sys
 
+sys.setrecursionlimit(10**8)
 input = sys.stdin.readline
 
 INF = float('inf')
@@ -21,8 +22,7 @@ def tsp(curr, mask):
 
 n = int(input())
 w = [list(map(int, input().split())) for _ in range(n)]
-dp = [0] * 2 ** n
+dp = [[-1] * (1 << n) for _ in range(n)]
 
-tsp(0, 1)
-print(dp)
-print(w)
+result = tsp(0, 1)
+print(result)
